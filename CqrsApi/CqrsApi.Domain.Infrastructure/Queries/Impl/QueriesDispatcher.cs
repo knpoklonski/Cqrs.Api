@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CqrsApi.Domain.Infrastructure.Queries.Impl
 {
@@ -13,6 +14,11 @@ namespace CqrsApi.Domain.Infrastructure.Queries.Impl
 
             _queriesFactory = queriesFactory;
        }
+
+        public async Task<TResult> ExecuteAsync<TResult, TCriterion>(TCriterion criterion) where TCriterion : ICriterion
+        {
+            return await _queriesFactory.CreateQueryAsync<TCriterion, TResult>().Ask(criterion);
+        }
 
         public TResult Execute<TResult, TCriterion>(TCriterion criterion) where TCriterion : ICriterion
         {
