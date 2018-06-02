@@ -4,6 +4,11 @@ namespace CqrsApi.Domain.Customers.Criterions
 {
     public class FindByIdCriterion : ICriterion
     {
-        public int Id { get; set; }
+        public FindByIdCriterion(int id)
+        {
+            Id = id;
+        }
+
+        public int Id { get; private set; }
     }
 }
