@@ -9,6 +9,6 @@ namespace CqrsApi.Domain.Customers.Criterions
             Id = id;
         }
 
-        public int Id { get; private set; }
+        public int Id { get; }
     }
 }

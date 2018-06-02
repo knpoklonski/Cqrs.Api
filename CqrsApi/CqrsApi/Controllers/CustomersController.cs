@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using CqrsApi.Domain.Customers;
 using CqrsApi.Domain.Customers.Criterions;
 using CqrsApi.Domain.Infrastructure.Queries;
+using CqrsApi.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CqrsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class CustomersController : BaseController
     {
         private readonly IQueriesDispatcher _queryDispatcher;
 
@@ -19,16 +20,19 @@ namespace CqrsApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<CollectionResult<Customer>> Get(int? top, int? skip)
         {
-            return new string[] { "value1", "value2" };
+            var criterion = new GetManyCriterion(top, skip);
+            var customers = await _queryDispatcher.ExecuteAsync<IEnumerable<Customer>, GetManyCriterion>(criterion);
+
+            return new CollectionResult<Customer>(customers, criterion.Top, criterion.Skip, HttpContext.RequestedUrl());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> Get(int id)
+        public async Task<CustomerDetails> Get(int id)
         {
             var criterion = new FindByIdCriterion(id);
-            return await _queryDispatcher.ExecuteAsync<Customer, FindByIdCriterion>(criterion);
+            return await _queryDispatcher.ExecuteAsync<CustomerDetails, FindByIdCriterion>(criterion);
         }
 
         [HttpPost]

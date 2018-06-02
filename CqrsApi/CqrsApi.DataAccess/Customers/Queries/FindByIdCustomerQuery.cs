@@ -7,7 +7,7 @@ using Dapper;
 
 namespace CqrsApi.DataAccess.Customers.Queries
 {
-    public class FindByIdCustomerQuery : IQueryAsync<FindByIdCriterion, Customer>
+    public class FindByIdCustomerQuery : IQueryAsync<FindByIdCriterion, CustomerDetails>
     {
         private readonly IDataBaseConnectionProvider _provider;
 
@@ -16,15 +16,21 @@ namespace CqrsApi.DataAccess.Customers.Queries
             _provider = provider;
         }
 
-        public async Task<Customer> Ask(FindByIdCriterion criterion)
+        public async Task<CustomerDetails> Ask(FindByIdCriterion criterion)
         {
             using (var connection = _provider.GetConnection())
             {
                 connection.Open();
 
-                return await connection.QuerySingleOrDefaultAsync<Customer>(@"SELECT Id, Name, Email 
-                                                                    FROM Customers
-                                                                    WHERE Id = @Id", new {criterion.Id});
+                return await connection.QuerySingleOrDefaultAsync<CustomerDetails>(
+                    @"SELECT Id, Name, Email 
+                    FROM Customers
+                    WHERE Id = @Id",
+                    new
+                    {
+                        criterion.Id
+                        
+                    });
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using CqrsApi.DataAccess;
 using CqrsApi.DataAccess.Customers.Queries;
@@ -30,7 +31,8 @@ namespace CqrsApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IQueriesDispatcher, QueriesDispatcher>();
             services.AddScoped<IQueriesFactory, QueriesFactory>();
-            services.AddTransient<IQueryAsync<FindByIdCriterion, Customer>, FindByIdCustomerQuery>();
+            services.AddTransient<IQueryAsync<FindByIdCriterion, CustomerDetails>, FindByIdCustomerQuery>();
+            services.AddTransient<IQueryAsync<GetManyCriterion, IEnumerable<Customer>>, GetManyCustomersQuery>();
             services.AddScoped<IDataBaseConnectionProvider, DataBaseConnectionProvider>();
             services.AddTransient<IDbConnection>(sp =>
                 new SqlConnection(Configuration.GetConnectionString("DefaultConnection"))
