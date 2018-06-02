@@ -22,7 +22,7 @@ namespace CqrsApi.DataAccess.Customers.Queries
             {
                 connection.Open();
 
-                return await connection.QuerySingleOrDefaultAsync<Customer>(@"SELECT Id, Name 
+                return await connection.QuerySingleOrDefaultAsync<Customer>(@"SELECT Id, Name, Email 
                                                                     FROM Customers
                                                                     WHERE Id = @Id", new {criterion.Id});
             }

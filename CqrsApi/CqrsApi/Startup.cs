@@ -1,4 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Data;
+using System.Data.SqlClient;
+using CqrsApi.DataAccess;
+using CqrsApi.DataAccess.Customers.Queries;
+using CqrsApi.Domain.Customers;
+using CqrsApi.Domain.Customers.Criterions;
+using CqrsApi.Domain.Infrastructure;
+using CqrsApi.Domain.Infrastructure.Queries;
+using CqrsApi.Domain.Infrastructure.Queries.Impl;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +28,13 @@ namespace CqrsApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped<IQueriesDispatcher, QueriesDispatcher>();
+            services.AddScoped<IQueriesFactory, QueriesFactory>();
+            services.AddTransient<IQueryAsync<FindByIdCriterion, Customer>, FindByIdCustomerQuery>();
+            services.AddScoped<IDataBaseConnectionProvider, DataBaseConnectionProvider>();
+            services.AddTransient<IDbConnection>(sp =>
+                new SqlConnection(Configuration.GetConnectionString("DefaultConnection"))
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
