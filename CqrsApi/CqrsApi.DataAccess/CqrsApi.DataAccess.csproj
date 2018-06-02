@@ -2,16 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>CqrsApi.Domain</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Command.cs" />
-    <Compile Remove="Query.cs" />
+    <Folder Include="Customers\Commands\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CqrsApi.Domain.Infrastructure\CqrsApi.Domain.Infrastructure.csproj" />
+    <ProjectReference Include="..\CqrsApi.Domain\CqrsApi.Domain.csproj" />
   </ItemGroup>
 
 </Project>

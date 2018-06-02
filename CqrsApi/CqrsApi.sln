@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CqrsApi.Domain.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsApi.Migrations", "CqrsApi.Migrations\CqrsApi.Migrations.csproj", "{92D3B8CF-7C9E-4FC3-9AB7-1D90DE8BBE31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsApi.DataAccess", "CqrsApi.DataAccess\CqrsApi.DataAccess.csproj", "{A3B6F9BB-A2FE-4CD5-829B-80413810A92D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{92D3B8CF-7C9E-4FC3-9AB7-1D90DE8BBE31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92D3B8CF-7C9E-4FC3-9AB7-1D90DE8BBE31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92D3B8CF-7C9E-4FC3-9AB7-1D90DE8BBE31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3B6F9BB-A2FE-4CD5-829B-80413810A92D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B6F9BB-A2FE-4CD5-829B-80413810A92D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B6F9BB-A2FE-4CD5-829B-80413810A92D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B6F9BB-A2FE-4CD5-829B-80413810A92D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
