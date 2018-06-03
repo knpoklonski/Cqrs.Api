@@ -57,8 +57,8 @@ namespace CqrsApi
                     new Info
                     {
                         Version = GetType().Assembly.GetName().Version.ToString(),
-                        Title = "Cqrs API",
-                        Description = string.Join("<br/>", "Cqrs API .Net Core 2 Supportable")
+                        Title = "CQRS API",
+                        Description = string.Join("<br/>", "CQRS API .Net Core 2")
                     });
             });
         }
@@ -87,7 +87,7 @@ namespace CqrsApi
             {
                 c.DisplayRequestDuration();
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CQRS API V1");
-                c.DocumentTitle = "Cqrs API";
+                c.DocumentTitle = "CQRS API";
                 c.RoutePrefix = string.Empty;
             });
 
