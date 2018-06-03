@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CqrsApi.Domain.Customers;
+using CqrsApi.Domain.Customers.Commands;
+using CqrsApi.Domain.Infrastructure.Commands;
 using CqrsApi.Domain.Infrastructure.Queries;
 using CqrsApi.Domain.Shared.Queries;
 using CqrsApi.Infrastructure;
+using CqrsApi.Models.Customers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CqrsApi.Controllers
@@ -12,11 +16,13 @@ namespace CqrsApi.Controllers
     [ApiController]
     public class CustomersController : BaseController
     {
+        private readonly ICommandsDispatcher _commandsDispatcher;
         private readonly IQueriesDispatcher _queryDispatcher;
 
-        public CustomersController(IQueriesDispatcher queryDispatcher)
+        public CustomersController(IQueriesDispatcher queryDispatcher, ICommandsDispatcher commandsDispatcher)
         {
-            _queryDispatcher = queryDispatcher;
+            _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
+            _commandsDispatcher = commandsDispatcher ?? throw new ArgumentNullException(nameof(commandsDispatcher));
         }
 
         [HttpGet]
@@ -36,8 +42,10 @@ namespace CqrsApi.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody] CustomerEditModel editModel)
         {
+            var createCommand = new CreateCustomerCommand(editModel.Name, editModel.Email);
+            await _commandsDispatcher.ExecuteAsync(createCommand);
         }
 
         [HttpPut("{id}")]

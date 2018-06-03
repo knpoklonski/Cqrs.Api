@@ -23,7 +23,7 @@ namespace CqrsApi.Domain.Infrastructure.Commands.Impl
         public Task ExecuteAsync<TCommand>(TCommand command)
             where TCommand : ICommand
         {
-            return _commandHandlersFactory.CreateAsyncHandler<TCommand>().Execute(command);
+            return _commandHandlersFactory.CreateAsyncHandler<TCommand>().ExecuteAsync(command);
         }
     }
 }

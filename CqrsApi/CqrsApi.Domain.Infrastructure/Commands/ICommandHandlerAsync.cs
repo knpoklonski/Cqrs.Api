@@ -4,6 +4,6 @@
 
     public interface ICommandHandlerAsync<in TCommand> where TCommand : ICommand
     {
-        Task Execute(TCommand command);
+        Task ExecuteAsync(TCommand command);
     }
 }
