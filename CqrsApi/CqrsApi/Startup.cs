@@ -34,7 +34,7 @@ namespace CqrsApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IQueriesDispatcher, QueriesDispatcher>();
-            services.AddScoped<IQueryHandlerFactory, QueryHandlerFactory>();
+            services.AddScoped<IQueryHandlersFactory, QueryHandlersFactory>();
             services.AddScoped<ICommandHandlersFactory, CommandHandlersFactory>();
             services.AddScoped<ICommandsDispatcher, CommandsDispatcher>();
             services.AddScoped<IDataBaseConnectionProvider, DataBaseConnectionProvider>();

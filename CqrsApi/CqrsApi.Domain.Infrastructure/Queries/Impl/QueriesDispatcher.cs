@@ -5,24 +5,24 @@ namespace CqrsApi.Domain.Infrastructure.Queries.Impl
 {
     public class QueriesDispatcher : IQueriesDispatcher
     {
-        private readonly IQueryHandlerFactory _queryHandlerFactory;
+        private readonly IQueryHandlersFactory _queryHandlersFactory;
 
-        public QueriesDispatcher(IQueryHandlerFactory queryHandlerFactory)
+        public QueriesDispatcher(IQueryHandlersFactory queryHandlersFactory)
         {
-            if (queryHandlerFactory == null)
-                throw new ArgumentNullException(nameof(queryHandlerFactory));
+            if (queryHandlersFactory == null)
+                throw new ArgumentNullException(nameof(queryHandlersFactory));
 
-            _queryHandlerFactory = queryHandlerFactory;
+            _queryHandlersFactory = queryHandlersFactory;
        }
 
         public async Task<TResult> ExecuteAsync<TResult, TQuery>(TQuery query) where TQuery : IQuery<TResult>
         {
-            return await _queryHandlerFactory.CreateAsyncHandler<TQuery, TResult>().Ask(query);
+            return await _queryHandlersFactory.CreateAsyncHandler<TQuery, TResult>().Ask(query);
         }
 
         public TResult Execute<TResult, TQuery>(TQuery query) where TQuery : IQuery<TResult>
         {
-            return _queryHandlerFactory.CreateHandler<TQuery, TResult>().Ask(query);
+            return _queryHandlersFactory.CreateHandler<TQuery, TResult>().Ask(query);
         }
     }
 }

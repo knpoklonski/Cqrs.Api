@@ -3,11 +3,11 @@ using CqrsApi.Domain.Infrastructure.Queries;
 
 namespace CqrsApi.Domain
 {
-    public class QueryHandlerFactory : IQueryHandlerFactory
+    public class QueryHandlersFactory : IQueryHandlersFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public QueryHandlerFactory(IServiceProvider serviceProvider)
+        public QueryHandlersFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
