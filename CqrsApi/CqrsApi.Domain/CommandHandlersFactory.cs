@@ -19,7 +19,7 @@ namespace CqrsApi.Domain
 
         public ICommandHandlerAsync<TCommand> CreateAsyncHandler<TCommand>() where TCommand : ICommand
         {
-            return (ICommandHandlerAsync<TCommand>)_serviceProvider.GetService(typeof(ICommandHandler<TCommand>));
+            return (ICommandHandlerAsync<TCommand>)_serviceProvider.GetService(typeof(ICommandHandlerAsync<TCommand>));
         }
     }
 }

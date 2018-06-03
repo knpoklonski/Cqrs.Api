@@ -24,16 +24,17 @@ namespace CqrsApi.DataAccess.Customers.CommandHandlers
                 using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
                     await connection.ExecuteAsync(
-                        @"INSERT INTO Customers(Name, Email)
+                        @"INSERT INTO Customers (Name, Email)
                           VALUES(@Name, @Email)",
                         new
                         {
                             command.Name,
                             command.Email
-                        });
+                        },
+                        transaction);
 
                     transaction.Commit();
-                }   
+                }
             }
         }
     }
