@@ -1,7 +1,7 @@
 ﻿using System;
 using CqrsApi.Domain.Infrastructure.Queries;
 
-namespace CqrsApi
+namespace CqrsApi.Domain
 {
     public class QueryHandlerFactory : IQueryHandlerFactory
     {
