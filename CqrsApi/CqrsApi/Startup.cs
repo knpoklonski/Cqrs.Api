@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using CqrsApi.DataAccess;
@@ -7,6 +8,7 @@ using CqrsApi.DataAccess.Customers.QueryHandlers;
 using CqrsApi.Domain;
 using CqrsApi.Domain.Customers;
 using CqrsApi.Domain.Customers.Commands;
+using CqrsApi.Domain.Customers.Validation;
 using CqrsApi.Domain.Infrastructure;
 using CqrsApi.Domain.Infrastructure.Commands;
 using CqrsApi.Domain.Infrastructure.Commands.Impl;
@@ -48,6 +50,14 @@ namespace CqrsApi
             services.AddTransient<IQueryHandlerAsync<FindByIdQuery<CustomerDetails>, CustomerDetails>, FindByIdCustomerQueryHandler>();
             services.AddTransient<IQueryHandlerAsync<GetManyQuery<Customer>, IEnumerable<Customer>>, GetManyCustomersQueryHandler>();
             services.AddTransient<ICommandHandlerAsync<CreateCustomerCommand>, CreateCustomerHandler>();
+
+            services.AddTransient<CreateCustomerValidationHandler>();
+
+            services.DecoratorFor<ICommandHandlerAsync<CreateCustomerCommand>>()
+                    .Default<CreateCustomerHandler>()
+                    .Envelop((provider, createCustomerHandler) => new CreateCustomerValidationDecorator(createCustomerHandler, provider.GetService<CreateCustomerValidationHandler>()))
+                    .Register();
+
             #endregion Customers
 
             services.AddSwaggerGen(c =>
