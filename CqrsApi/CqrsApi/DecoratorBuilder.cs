@@ -6,7 +6,7 @@ namespace CqrsApi
     public class DecoratorBuilder<TInterface> where TInterface : class
     {
         private readonly IServiceCollection _services;
-        private TInterface _commandHandler;
+        private TInterface _decoratedService;
 
         public DecoratorBuilder(IServiceCollection services)
         {
@@ -18,7 +18,7 @@ namespace CqrsApi
         {
             _services.AddTransient<TService>();
             var provider = _services.BuildServiceProvider();
-            _commandHandler = (TInterface) provider.GetService(typeof(TService));
+            _decoratedService = (TInterface) provider.GetService(typeof(TService));
 
             return this;
         }
@@ -26,14 +26,14 @@ namespace CqrsApi
         public DecoratorBuilder<TInterface> Envelop(Func<IServiceProvider, TInterface, TInterface> envelop)
         {
             var provider = _services.BuildServiceProvider();
-            _commandHandler = envelop(provider, _commandHandler);
+            _decoratedService = envelop(provider, _decoratedService);
+
             return this;
         }
 
-        public DecoratorBuilder<TInterface> Register()
+        public void Register()
         {
-            _services.AddTransient(provider => _commandHandler);
-            return this;
+            _services.AddTransient(provider => _decoratedService);
         }
     }
 }
