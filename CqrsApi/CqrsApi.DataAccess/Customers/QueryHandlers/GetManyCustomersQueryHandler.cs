@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CqrsApi.Domain.Customers;
-using CqrsApi.Domain.Customers.Queries;
 using CqrsApi.Domain.Infrastructure;
 using CqrsApi.Domain.Infrastructure.Queries;
+using CqrsApi.Domain.Shared.Queries;
 using Dapper;
 
 namespace CqrsApi.DataAccess.Customers.QueryHandlers
 {
-    public class GetManyCustomersQueryHandler : IQueryHandlerAsync<GetManyQuery, IEnumerable<Customer>>
+    public class GetManyCustomersQueryHandler : IQueryHandlerAsync<GetManyQuery<Customer>, IEnumerable<Customer>>
     {
         private readonly IDataBaseConnectionProvider _provider;
 
@@ -17,7 +17,7 @@ namespace CqrsApi.DataAccess.Customers.QueryHandlers
             _provider = provider;
         }
 
-        public async Task<IEnumerable<Customer>> Ask(GetManyQuery query)
+        public async Task<IEnumerable<Customer>> Ask(GetManyQuery<Customer> query)
         {
             using (var connection = _provider.GetConnection())
             {

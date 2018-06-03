@@ -15,14 +15,14 @@ namespace CqrsApi.Domain.Infrastructure.Queries.Impl
             _queryHandlerFactory = queryHandlerFactory;
        }
 
-        public async Task<TResult> ExecuteAsync<TResult, TCriterion>(TCriterion criterion) where TCriterion : IQuery
+        public async Task<TResult> ExecuteAsync<TResult, TQuery>(TQuery query) where TQuery : IQuery<TResult>
         {
-            return await _queryHandlerFactory.CreateAsyncHandler<TCriterion, TResult>().Ask(criterion);
+            return await _queryHandlerFactory.CreateAsyncHandler<TQuery, TResult>().Ask(query);
         }
 
-        public TResult Execute<TResult, TCriterion>(TCriterion criterion) where TCriterion : IQuery
+        public TResult Execute<TResult, TQuery>(TQuery query) where TQuery : IQuery<TResult>
         {
-            return _queryHandlerFactory.CreateHandler<TCriterion, TResult>().Ask(criterion);
+            return _queryHandlerFactory.CreateHandler<TQuery, TResult>().Ask(query);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CqrsApi.Domain.Customers;
-using CqrsApi.Domain.Customers.Queries;
 using CqrsApi.Domain.Infrastructure.Queries;
+using CqrsApi.Domain.Shared.Queries;
 using CqrsApi.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,17 +22,17 @@ namespace CqrsApi.Controllers
         [HttpGet]
         public async Task<CollectionResult<Customer>> Get(int? top, int? skip)
         {
-            var criterion = new GetManyQuery(top, skip);
-            var customers = await _queryDispatcher.ExecuteAsync<IEnumerable<Customer>, GetManyQuery>(criterion);
+            var query = new GetManyQuery<Customer>(top, skip);
+            var customers = await _queryDispatcher.ExecuteAsync<IEnumerable<Customer>, GetManyQuery<Customer>>(query);
 
-            return new CollectionResult<Customer>(customers, criterion.Top, criterion.Skip, HttpContext.RequestedUrl());
+            return new CollectionResult<Customer>(customers, query.Top, query.Skip, HttpContext.RequestedUrl());
         }
 
         [HttpGet("{id}")]
         public async Task<CustomerDetails> Get(int id)
         {
-            var criterion = new FindByIdQuery(id);
-            return await _queryDispatcher.ExecuteAsync<CustomerDetails, FindByIdQuery>(criterion);
+            var criterion = new FindByIdQuery<CustomerDetails>(id);
+            return await _queryDispatcher.ExecuteAsync<CustomerDetails, FindByIdQuery<CustomerDetails>>(criterion);
         }
 
         [HttpPost]

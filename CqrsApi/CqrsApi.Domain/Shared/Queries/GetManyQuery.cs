@@ -1,8 +1,9 @@
-﻿using CqrsApi.Domain.Infrastructure.Queries;
+﻿using System.Collections.Generic;
+using CqrsApi.Domain.Infrastructure.Queries;
 
-namespace CqrsApi.Domain.Customers.Queries
+namespace CqrsApi.Domain.Shared.Queries
 {
-    public class GetManyQuery : IQuery
+    public class GetManyQuery<TReuslt> : IQuery<IEnumerable<TReuslt>>
     {
         private const int DefaultTop = 10;
         private const int DefaultSkip = 0;

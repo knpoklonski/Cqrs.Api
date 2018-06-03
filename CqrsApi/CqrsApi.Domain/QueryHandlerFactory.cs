@@ -12,14 +12,14 @@ namespace CqrsApi
             _serviceProvider = serviceProvider;
         }
 
-        public IQueryHandlerAsync<TCriterion, TResult> CreateAsyncHandler<TCriterion, TResult>() where TCriterion : IQuery
+        public IQueryHandlerAsync<TQuery, TResult> CreateAsyncHandler<TQuery, TResult>() where TQuery : IQuery<TResult>
         {
-            return (IQueryHandlerAsync<TCriterion, TResult>) _serviceProvider.GetService(typeof(IQueryHandlerAsync<TCriterion, TResult>));
+            return (IQueryHandlerAsync<TQuery, TResult>) _serviceProvider.GetService(typeof(IQueryHandlerAsync<TQuery, TResult>));
         }
 
-        public IQueryHandler<TCriterion, TResult> CreateHandler<TCriterion, TResult>() where TCriterion : IQuery
+        public IQueryHandler<TQuery, TResult> CreateHandler<TQuery, TResult>() where TQuery : IQuery<TResult>
         {
-            return (IQueryHandler<TCriterion, TResult>)_serviceProvider.GetService(typeof(IQueryHandler<TCriterion, TResult>));
+            return (IQueryHandler<TQuery, TResult>)_serviceProvider.GetService(typeof(IQueryHandler<TQuery, TResult>));
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using CqrsApi.Domain.Infrastructure.Queries;
 
-namespace CqrsApi.Domain.Customers.Queries
+namespace CqrsApi.Domain.Shared.Queries
 {
-    public class FindByIdQuery : IQuery
+    public class FindByIdQuery<TResult> : IQuery<TResult>
     {
         public FindByIdQuery(int id)
         {
