@@ -1,7 +1,6 @@
 ﻿namespace CqrsApi.Domain.Infrastructure.Queries
 {
-    public interface IQuery<in TCriterion, TResult> where TCriterion : ICriterion
+    public interface IQuery
     {
-        TResult Ask(TCriterion criterion);
     }
 }

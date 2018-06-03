@@ -4,7 +4,7 @@ namespace CqrsApi.Domain.Infrastructure.Queries
 {
     public interface IQueriesDispatcher
     {
-        Task<TResult> ExecuteAsync<TResult, TCriterion>(TCriterion criterion) where TCriterion : ICriterion;
-        TResult Execute<TResult, TCriterion>(TCriterion criterion) where TCriterion : ICriterion;
+        Task<TResult> ExecuteAsync<TResult, TQuery>(TQuery criterion) where TQuery : IQuery;
+        TResult Execute<TResult, TQuery>(TQuery criterion) where TQuery : IQuery;
     }
 }

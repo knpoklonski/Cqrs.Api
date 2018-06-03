@@ -1,10 +1,10 @@
 ﻿using CqrsApi.Domain.Infrastructure.Queries;
 
-namespace CqrsApi.Domain.Customers.Criterions
+namespace CqrsApi.Domain.Customers.Queries
 {
-    public class FindByIdCriterion : ICriterion
+    public class FindByIdQuery : IQuery
     {
-        public FindByIdCriterion(int id)
+        public FindByIdQuery(int id)
         {
             Id = id;
         }

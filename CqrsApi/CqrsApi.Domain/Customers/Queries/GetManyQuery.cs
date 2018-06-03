@@ -1,13 +1,13 @@
 ﻿using CqrsApi.Domain.Infrastructure.Queries;
 
-namespace CqrsApi.Domain.Customers.Criterions
+namespace CqrsApi.Domain.Customers.Queries
 {
-    public class GetManyCriterion : ICriterion
+    public class GetManyQuery : IQuery
     {
         private const int DefaultTop = 10;
         private const int DefaultSkip = 0;
 
-        public GetManyCriterion(int? top, int? skip)
+        public GetManyQuery(int? top, int? skip)
         {
             Top = top ?? DefaultTop;
             Skip = skip ?? DefaultSkip;

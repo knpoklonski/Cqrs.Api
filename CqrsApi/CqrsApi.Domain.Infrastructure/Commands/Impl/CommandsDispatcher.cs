@@ -5,25 +5,25 @@ namespace CqrsApi.Domain.Infrastructure.Commands.Impl
 {
     public class CommandsDispatcher : ICommandsDispatcher
     {
-        private readonly ICommandsFactory _commandsFactory;
+        private readonly ICommandHandlersFactory _commandHandlersFactory;
 
-        public CommandsDispatcher(ICommandsFactory commandsFactory)
+        public CommandsDispatcher(ICommandHandlersFactory commandHandlersFactory)
         {
-            if (commandsFactory == null)
-                throw new ArgumentNullException(nameof(commandsFactory));
+            if (commandHandlersFactory == null)
+                throw new ArgumentNullException(nameof(commandHandlersFactory));
 
-            _commandsFactory = commandsFactory;
+            _commandHandlersFactory = commandHandlersFactory;
         }
 
-        public void Execute<TCommandContext>(TCommandContext commandContext) where TCommandContext : ICommandContext
+        public void Execute<TCommand>(TCommand command) where TCommand : ICommand
         {
-            _commandsFactory.CreateCommand<TCommandContext>().Execute(commandContext);
+            _commandHandlersFactory.CreateHandler<TCommand>().Execute(command);
         }
 
-        public Task ExecuteAsync<TCommandContext>(TCommandContext commandContext)
-            where TCommandContext : ICommandContext
+        public Task ExecuteAsync<TCommand>(TCommand command)
+            where TCommand : ICommand
         {
-            return _commandsFactory.CreateAsyncCommand<TCommandContext>().Execute(commandContext);
+            return _commandHandlersFactory.CreateAsyncHandler<TCommand>().Execute(command);
         }
     }
 }

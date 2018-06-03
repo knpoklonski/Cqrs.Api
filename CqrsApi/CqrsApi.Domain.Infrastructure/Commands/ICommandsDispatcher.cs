@@ -4,7 +4,7 @@ namespace CqrsApi.Domain.Infrastructure.Commands
 {
     public interface ICommandsDispatcher
     {
-        void Execute<TCommandContext>(TCommandContext commandContext) where TCommandContext : ICommandContext;
-        Task ExecuteAsync<TCommandContext>(TCommandContext commandContext) where TCommandContext : ICommandContext;
+        void Execute<TCommand>(TCommand command) where TCommand : ICommand;
+        Task ExecuteAsync<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace CqrsApi.Domain.Infrastructure.Commands
 {
-    public interface ICommand<in TCommandContext> where TCommandContext : ICommandContext
+    public interface ICommand
     {
-        void Execute(TCommandContext commandContext);
     }
 }

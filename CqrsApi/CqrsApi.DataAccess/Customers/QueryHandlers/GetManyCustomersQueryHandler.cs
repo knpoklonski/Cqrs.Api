@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CqrsApi.Domain.Customers;
-using CqrsApi.Domain.Customers.Criterions;
+using CqrsApi.Domain.Customers.Queries;
 using CqrsApi.Domain.Infrastructure;
 using CqrsApi.Domain.Infrastructure.Queries;
 using Dapper;
 
-namespace CqrsApi.DataAccess.Customers.Queries
+namespace CqrsApi.DataAccess.Customers.QueryHandlers
 {
-    public class GetManyCustomersQuery : IQueryAsync<GetManyCriterion, IEnumerable<Customer>>
+    public class GetManyCustomersQueryHandler : IQueryHandlerAsync<GetManyQuery, IEnumerable<Customer>>
     {
         private readonly IDataBaseConnectionProvider _provider;
 
-        public GetManyCustomersQuery(IDataBaseConnectionProvider provider)
+        public GetManyCustomersQueryHandler(IDataBaseConnectionProvider provider)
         {
             _provider = provider;
         }
 
-        public async Task<IEnumerable<Customer>> Ask(GetManyCriterion criterion)
+        public async Task<IEnumerable<Customer>> Ask(GetManyQuery query)
         {
             using (var connection = _provider.GetConnection())
             {
@@ -31,8 +31,8 @@ namespace CqrsApi.DataAccess.Customers.Queries
                        FETCH NEXT (@Top)  ROWS ONLY;",
                     new
                     {
-                        criterion.Top,
-                        criterion.Skip
+                        query.Top,
+                        query.Skip
                     });
             }
         }

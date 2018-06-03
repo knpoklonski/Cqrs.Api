@@ -1,22 +1,22 @@
 ﻿using System.Threading.Tasks;
 using CqrsApi.Domain.Customers;
-using CqrsApi.Domain.Customers.Criterions;
+using CqrsApi.Domain.Customers.Queries;
 using CqrsApi.Domain.Infrastructure;
 using CqrsApi.Domain.Infrastructure.Queries;
 using Dapper;
 
-namespace CqrsApi.DataAccess.Customers.Queries
+namespace CqrsApi.DataAccess.Customers.QueryHandlers
 {
-    public class FindByIdCustomerQuery : IQueryAsync<FindByIdCriterion, CustomerDetails>
+    public class FindByIdCustomerQueryHandler : IQueryHandlerAsync<FindByIdQuery, CustomerDetails>
     {
         private readonly IDataBaseConnectionProvider _provider;
 
-        public FindByIdCustomerQuery(IDataBaseConnectionProvider provider)
+        public FindByIdCustomerQueryHandler(IDataBaseConnectionProvider provider)
         {
             _provider = provider;
         }
 
-        public async Task<CustomerDetails> Ask(FindByIdCriterion criterion)
+        public async Task<CustomerDetails> Ask(FindByIdQuery query)
         {
             using (var connection = _provider.GetConnection())
             {
@@ -28,7 +28,7 @@ namespace CqrsApi.DataAccess.Customers.Queries
                     WHERE Id = @Id",
                     new
                     {
-                        criterion.Id
+                        query.Id
                         
                     });
             }
