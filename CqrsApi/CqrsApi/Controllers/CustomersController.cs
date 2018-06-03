@@ -31,8 +31,8 @@ namespace CqrsApi.Controllers
         [HttpGet("{id}")]
         public async Task<CustomerDetails> Get(int id)
         {
-            var criterion = new FindByIdQuery<CustomerDetails>(id);
-            return await _queryDispatcher.ExecuteAsync<CustomerDetails, FindByIdQuery<CustomerDetails>>(criterion);
+            var query = new FindByIdQuery<CustomerDetails>(id);
+            return await _queryDispatcher.ExecuteAsync<CustomerDetails, FindByIdQuery<CustomerDetails>>(query);
         }
 
         [HttpPost]
