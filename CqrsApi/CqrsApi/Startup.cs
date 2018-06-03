@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using CqrsApi.DataAccess;
+using CqrsApi.DataAccess.Customers.CommandHandlers;
 using CqrsApi.DataAccess.Customers.QueryHandlers;
 using CqrsApi.Domain;
 using CqrsApi.Domain.Customers;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CqrsApi
 {
@@ -45,8 +47,20 @@ namespace CqrsApi
             #region Customers
             services.AddTransient<IQueryHandlerAsync<FindByIdQuery<CustomerDetails>, CustomerDetails>, FindByIdCustomerQueryHandler>();
             services.AddTransient<IQueryHandlerAsync<GetManyQuery<Customer>, IEnumerable<Customer>>, GetManyCustomersQueryHandler>();
-            services.AddTransient<ICommandHandlerAsync<CreateCustomerCommand>>();
+            services.AddTransient<ICommandHandlerAsync<CreateCustomerCommand>, CreateCustomerHandler>();
             #endregion Customers
+
+            services.AddSwaggerGen(c =>
+            {
+                c.DescribeAllEnumsAsStrings();
+                c.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Version = GetType().Assembly.GetName().Version.ToString(),
+                        Title = "Cqrs API",
+                        Description = string.Join("<br/>", "Cqrs API .Net Core 2 Supportable")
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +77,20 @@ namespace CqrsApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.DisplayRequestDuration();
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CQRS API V1");
+                c.DocumentTitle = "Cqrs API";
+                c.RoutePrefix = string.Empty;
+            });
+
         }
     }
 }
