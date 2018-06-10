@@ -1,10 +1,10 @@
 ## State 
 
-MPV released
+First version released
 
 ## CQRS API
 
-Sample project with API using .Net Core and Dapper according to CQRS architecture
+Sample project with API using .Net Core and Dapper according to CQS principle
 
 ## Launch Instructions
 
