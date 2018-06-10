@@ -31,7 +31,7 @@ namespace CqrsApi.Controllers
             var query = new GetManyQuery<Customer>(top, skip);
             var customers = await _queryDispatcher.ExecuteAsync<IEnumerable<Customer>, GetManyQuery<Customer>>(query);
 
-            return new CollectionResult<Customer>(customers, query.Top, query.Skip, HttpContext.RequestedUrl());
+            return new CollectionResult<Customer>(customers, query.Skip, query.Top, HttpContext.RequestedUrl());
         }
 
         [HttpGet("{id}")]
