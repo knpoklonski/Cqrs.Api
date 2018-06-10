@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CqrsApi
+namespace CqrsApi.Infrastructure
 {
     public class DecoratorBuilder<TInterface> where TInterface : class
     {
@@ -16,8 +16,8 @@ namespace CqrsApi
         public DecoratorBuilder<TInterface> Default<TService>()
             where TService : class, TInterface
         {
-            _services.AddTransient<TService>();
-            var provider = _services.BuildServiceProvider();
+            ServiceCollectionServiceExtensions.AddTransient<TService>(_services);
+            var provider = ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(_services);
             _decoratedService = (TInterface) provider.GetService(typeof(TService));
 
             return this;
@@ -25,7 +25,7 @@ namespace CqrsApi
 
         public DecoratorBuilder<TInterface> Envelop(Func<IServiceProvider, TInterface, TInterface> envelop)
         {
-            var provider = _services.BuildServiceProvider();
+            var provider = ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(_services);
             _decoratedService = envelop(provider, _decoratedService);
 
             return this;
