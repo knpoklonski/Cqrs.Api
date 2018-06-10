@@ -2,5 +2,8 @@
 {
     public class NotFoundException : CqrsApiApplicationException
     {
+        public NotFoundException(int id) : base($"Resource with id={id} is not found")
+        {
+        }
     }
 }

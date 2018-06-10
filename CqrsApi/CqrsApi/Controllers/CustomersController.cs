@@ -5,6 +5,7 @@ using CqrsApi.Domain.Customers;
 using CqrsApi.Domain.Customers.Commands;
 using CqrsApi.Domain.Infrastructure.Commands;
 using CqrsApi.Domain.Infrastructure.Queries;
+using CqrsApi.Domain.Shared.Exceptions;
 using CqrsApi.Domain.Shared.Queries;
 using CqrsApi.Infrastructure;
 using CqrsApi.Models.Customers;
@@ -38,7 +39,14 @@ namespace CqrsApi.Controllers
         public async Task<CustomerDetails> Get(int id)
         {
             var query = new FindByIdQuery<CustomerDetails>(id);
-            return await _queryDispatcher.ExecuteAsync<CustomerDetails, FindByIdQuery<CustomerDetails>>(query);
+            var customerDetails = await _queryDispatcher.ExecuteAsync<CustomerDetails, FindByIdQuery<CustomerDetails>>(query);
+
+            if (customerDetails == null)
+            {
+                throw new NotFoundException(id);
+            }
+
+            return customerDetails;
         }
 
         [HttpPost]
