@@ -9,5 +9,11 @@ namespace CqrsApi.Infrastructure
             var request = context.Request;
             return $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}{request.QueryString}";
         }
+
+        public static string GetHref(this HttpContext context, int id)
+        {
+            var request = context.Request;
+            return $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}/{id}";
+        }
     }
 }

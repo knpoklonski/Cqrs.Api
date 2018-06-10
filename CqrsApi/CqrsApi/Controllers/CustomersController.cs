@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CqrsApi.Domain.Customers;
 using CqrsApi.Domain.Customers.Commands;
@@ -27,12 +28,17 @@ namespace CqrsApi.Controllers
         }
 
         [HttpGet]
-        public async Task<CollectionResult<Customer>> Get(int? top, int? skip)
+        public async Task<CollectionResult<CustomerResource>> Get(int? top, int? skip)
         {
             var query = new GetManyQuery<Customer>(top, skip);
             var customers = await _queryDispatcher.ExecuteAsync<IEnumerable<Customer>, GetManyQuery<Customer>>(query);
+            var resources = customers.Select(x => new CustomerResource
+            {
+                Id = x.Id,
+                Href = HttpContext.GetHref(x.Id)
+            }).ToArray();
 
-            return new CollectionResult<Customer>(customers, query.Skip, query.Top, HttpContext.RequestedUrl());
+            return new CollectionResult<CustomerResource>(resources, query.Skip, query.Top, HttpContext.RequestedUrl());
         }
 
         [HttpGet("{id}")]
