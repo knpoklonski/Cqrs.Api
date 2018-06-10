@@ -1,5 +1,4 @@
-﻿using CqrsApi.Domain.Customers.Validation;
-using CqrsApi.Domain.Infrastructure.Queries;
+﻿using CqrsApi.Domain.Infrastructure.Queries;
 
 namespace CqrsApi.Domain.Customers.Queries
 {

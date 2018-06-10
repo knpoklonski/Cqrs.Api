@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{436B41DD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsApi.Tests", "Tests\CqrsApi.Tests\CqrsApi.Tests.csproj", "{3C152977-F7DA-46F9-B99A-6AE6C1DF247A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsApi.Domain.Tests", "Tests\CqrsApi.Domain.Tests\CqrsApi.Domain.Tests.csproj", "{572D04C3-CCF8-45CC-87C9-80172AD524A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,12 +49,17 @@ Global
 		{3C152977-F7DA-46F9-B99A-6AE6C1DF247A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C152977-F7DA-46F9-B99A-6AE6C1DF247A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C152977-F7DA-46F9-B99A-6AE6C1DF247A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{572D04C3-CCF8-45CC-87C9-80172AD524A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{572D04C3-CCF8-45CC-87C9-80172AD524A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{572D04C3-CCF8-45CC-87C9-80172AD524A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{572D04C3-CCF8-45CC-87C9-80172AD524A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3C152977-F7DA-46F9-B99A-6AE6C1DF247A} = {436B41DD-2E4B-4C39-9D34-4C29CC71FBB1}
+		{572D04C3-CCF8-45CC-87C9-80172AD524A3} = {436B41DD-2E4B-4C39-9D34-4C29CC71FBB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56FF2D51-DAB5-4B89-818D-EF433FE02CE4}
