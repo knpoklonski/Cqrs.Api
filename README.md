@@ -1,6 +1,6 @@
 ## State 
 
-.. in progress
+MPV released
 
 ## CQRS API
 
@@ -13,8 +13,7 @@ Sample project with API using .Net Core and Dapper according to CQRS architectur
 * Run Web app
 
 ## To Do
-* Add swagger
-* Add href to resources
-* Implement base POST, GET, DELETE, PUT logic
+* logging
+* authorization
 
 
