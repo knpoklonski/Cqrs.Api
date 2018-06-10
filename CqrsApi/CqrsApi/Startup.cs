@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using CqrsApi.DataAccess;
 using CqrsApi.DataAccess.Customers.CommandHandlers;
 using CqrsApi.DataAccess.Customers.QueryHandlers;
+using CqrsApi.DataAccess.Orders.QueryHandlers;
 using CqrsApi.Domain;
 using CqrsApi.Domain.Customers;
 using CqrsApi.Domain.Customers.Commands;
@@ -14,6 +15,8 @@ using CqrsApi.Domain.Infrastructure.Commands;
 using CqrsApi.Domain.Infrastructure.Commands.Impl;
 using CqrsApi.Domain.Infrastructure.Queries;
 using CqrsApi.Domain.Infrastructure.Queries.Impl;
+using CqrsApi.Domain.Orders;
+using CqrsApi.Domain.Orders.Queries;
 using CqrsApi.Domain.Shared.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,6 +62,10 @@ namespace CqrsApi
                     .Register();
 
             #endregion Customers
+
+            #region Orders
+            services.AddTransient<IQueryHandlerAsync<GetManyOrdersQuery, IEnumerable<Order>>, GetManyOrdersQueryHandler>();
+            #endregion
 
             services.AddSwaggerGen(c =>
             {
