@@ -20,6 +20,8 @@ using CqrsApi.Domain.Orders;
 using CqrsApi.Domain.Orders.Commands;
 using CqrsApi.Domain.Orders.Queries;
 using CqrsApi.Domain.Shared.Queries;
+using CqrsApi.Infrastructure;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +43,13 @@ namespace CqrsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(opt =>
+                {
+                    opt.Filters.Add(typeof(ValidatorActionFilter)); 
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+
             services.AddScoped<IQueriesDispatcher, QueriesDispatcher>();
             services.AddScoped<IQueryHandlersFactory, QueryHandlersFactory>();
             services.AddScoped<ICommandHandlersFactory, CommandHandlersFactory>();
