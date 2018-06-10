@@ -47,15 +47,5 @@ namespace CqrsApi.Controllers
             var createCommand = new CreateCustomerCommand(editModel.Name, editModel.Email);
             await _commandsDispatcher.ExecuteAsync(createCommand);
         }
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
