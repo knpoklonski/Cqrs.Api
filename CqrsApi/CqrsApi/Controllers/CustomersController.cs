@@ -42,7 +42,7 @@ namespace CqrsApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<CustomerDetails> Get(int id)
+        public async Task<CustomerDetailsResource> Get(int id)
         {
             var query = new FindByIdQuery<CustomerDetails>(id);
             var customerDetails = await _queryDispatcher.ExecuteAsync<CustomerDetails, FindByIdQuery<CustomerDetails>>(query);
@@ -52,7 +52,15 @@ namespace CqrsApi.Controllers
                 throw new NotFoundException(id);
             }
 
-            return customerDetails;
+            var resource = new CustomerDetailsResource
+            {
+                Id = customerDetails.Id,
+                Email = customerDetails.Email,
+                Name = customerDetails.Name,
+                Href = HttpContext.GetHrefSelf()
+            };
+
+            return resource;
         }
 
         [HttpPost]

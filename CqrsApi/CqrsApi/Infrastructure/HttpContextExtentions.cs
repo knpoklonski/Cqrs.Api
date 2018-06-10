@@ -15,5 +15,11 @@ namespace CqrsApi.Infrastructure
             var request = context.Request;
             return $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}/{id}";
         }
+
+        public static string GetHrefSelf(this HttpContext context)
+        {
+            var request = context.Request;
+            return $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}";
+        }
     }
 }
