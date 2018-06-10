@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
 
 namespace CqrsApi.Models.Customers
-{ 
-
+{
     public class CreateCustomerValidator : AbstractValidator<CustomerEditModel>
     {
         public CreateCustomerValidator()
