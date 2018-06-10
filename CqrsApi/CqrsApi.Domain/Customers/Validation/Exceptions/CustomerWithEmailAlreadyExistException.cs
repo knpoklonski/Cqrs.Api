@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using CqrsApi.Domain.Shared.Exceptions;
 
 namespace CqrsApi.Domain.Customers.Validation.Exceptions
 {
     [Serializable]
-    public class CustomerWithEmailAlreadyExistException : Exception
+    public class CustomerWithEmailAlreadyExistException : CqrsApiApplicationException
     {
         public CustomerWithEmailAlreadyExistException()
         {
