@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using CqrsApi.Domain.Customers.Validation;
 using CqrsApi.Domain.Infrastructure.Commands;
 
 namespace CqrsApi.Domain.Customers.Commands
@@ -19,7 +18,7 @@ namespace CqrsApi.Domain.Customers.Commands
 
         public async Task ExecuteAsync(CreateCustomerCommand command)
         {
-            _validationHandler.Validate(command);
+            await _validationHandler.Validate(command);
             await _commandHandler.ExecuteAsync(command);
         }
     }

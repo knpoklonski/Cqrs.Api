@@ -1,7 +1,9 @@
-﻿namespace CqrsApi.Domain.Infrastructure.Commands
+﻿using System.Threading.Tasks;
+
+namespace CqrsApi.Domain.Infrastructure.Commands
 {
     public interface IValidationHandler<TCommand>
     {
-        void Validate(TCommand command);
+        Task Validate(TCommand command);
     }
 }

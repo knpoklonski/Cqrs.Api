@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using CqrsApi.DataAccess;
@@ -9,6 +10,7 @@ using CqrsApi.DataAccess.Orders.QueryHandlers;
 using CqrsApi.Domain;
 using CqrsApi.Domain.Customers;
 using CqrsApi.Domain.Customers.Commands;
+using CqrsApi.Domain.Customers.Queries;
 using CqrsApi.Domain.Customers.Validation;
 using CqrsApi.Domain.Infrastructure;
 using CqrsApi.Domain.Infrastructure.Commands;
@@ -61,19 +63,22 @@ namespace CqrsApi
             #region Customers
             services.AddTransient<IQueryHandlerAsync<FindByIdQuery<CustomerDetails>, CustomerDetails>, FindByIdCustomerQueryHandler>();
             services.AddTransient<IQueryHandlerAsync<GetManyQuery<Customer>, IEnumerable<Customer>>, GetManyCustomersQueryHandler>();
+            services.AddTransient<IQueryHandlerAsync<CheckExistingCustomerByEmailQuery, bool>, CheckExistingCustomerByEmailQueryHandler>();
+
             services.AddTransient<ICommandHandlerAsync<CreateCustomerCommand>, CreateCustomerHandler>();
 
-            services.AddTransient<CreateCustomerValidationHandler>();
-
+            services.AddTransient<IValidationHandler<CreateCustomerCommand>, CreateCustomerValidationHandler>();
+          
             services.DecoratorFor<ICommandHandlerAsync<CreateCustomerCommand>>()
                     .Default<CreateCustomerHandler>()
-                    .Envelop((provider, createCustomerHandler) => new CreateCustomerValidationDecorator(createCustomerHandler, provider.GetService<CreateCustomerValidationHandler>()))
+                    .Envelop((provider, createCustomerHandler) => new CreateCustomerValidationDecorator(createCustomerHandler, provider.GetService<IValidationHandler<CreateCustomerCommand>>()))
                     .Register();
 
             #endregion Customers
 
             #region Orders
             services.AddTransient<IQueryHandlerAsync<GetManyOrdersQuery, IEnumerable<Order>>, GetManyOrdersQueryHandler>();
+          
             services.DecoratorFor<ICommandHandlerAsync<CreateOrderCommand>>()
                 .Default<CreateOrderHandler>()
                 .Register();
@@ -105,6 +110,7 @@ namespace CqrsApi
             }
 
             app.UseHttpsRedirection();
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
