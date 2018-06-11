@@ -19,5 +19,6 @@ Can commands return value? .. yes
 ## To Do
 * logging
 * authorization
+* paging, return count
 
 
