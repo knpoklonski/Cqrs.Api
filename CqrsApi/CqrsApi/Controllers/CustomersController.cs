@@ -6,6 +6,7 @@ using CqrsApi.Domain.Customers;
 using CqrsApi.Domain.Customers.Commands;
 using CqrsApi.Domain.Infrastructure.Commands;
 using CqrsApi.Domain.Infrastructure.Queries;
+using CqrsApi.Domain.Shared;
 using CqrsApi.Domain.Shared.Exceptions;
 using CqrsApi.Domain.Shared.Queries;
 using CqrsApi.Infrastructure;
@@ -64,10 +65,19 @@ namespace CqrsApi.Controllers
         }
 
         [HttpPost]
-        public async Task Post([FromBody] CustomerEditModel editModel)
+        public async Task<CustomerDetails> Post([FromBody] CustomerEditModel editModel)
         {
             var createCommand = new CreateCustomerCommand(editModel.Name, editModel.Email);
-            await _commandsDispatcher.ExecuteAsync(createCommand);
+            var commandResult = await _commandsDispatcher.ExecuteAsync<CreateCustomerCommand, CommandResult<CustomerDetails>>(createCommand);
+
+            if (commandResult.IsSuccess)
+            {
+                return commandResult.Result;
+            }
+            else
+            {
+                throw new CqrsApiApplicationException(commandResult.FailureReason);
+            }
         }
     }
 }

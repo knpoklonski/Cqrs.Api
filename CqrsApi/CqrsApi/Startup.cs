@@ -20,6 +20,7 @@ using CqrsApi.Domain.Infrastructure.Queries.Impl;
 using CqrsApi.Domain.Orders;
 using CqrsApi.Domain.Orders.Commands;
 using CqrsApi.Domain.Orders.Queries;
+using CqrsApi.Domain.Shared;
 using CqrsApi.Domain.Shared.Queries;
 using CqrsApi.Infrastructure;
 using FluentValidation.AspNetCore;
@@ -65,11 +66,11 @@ namespace CqrsApi
             services.AddTransient<IQueryHandlerAsync<GetManyQuery<Customer>, IEnumerable<Customer>>, GetManyCustomersQueryHandler>();
             services.AddTransient<IQueryHandlerAsync<CheckExistingCustomerByEmailQuery, bool>, CheckExistingCustomerByEmailQueryHandler>();
 
-            services.AddTransient<ICommandHandlerAsync<CreateCustomerCommand>, CreateCustomerHandler>();
+            services.AddTransient<ICommandHandlerAsync<CreateCustomerCommand, CommandResult<CustomerDetails>>, CreateCustomerHandler>();
 
             services.AddTransient<IValidationHandler<CreateCustomerCommand>, CreateCustomerValidationHandler>();
           
-            services.DecoratorFor<ICommandHandlerAsync<CreateCustomerCommand>>()
+            services.DecoratorFor<ICommandHandlerAsync<CreateCustomerCommand, CommandResult<CustomerDetails>>>()
                     .Default<CreateCustomerHandler>()
                     .Envelop((provider, createCustomerHandler) => new CreateCustomerValidationDecorator(createCustomerHandler, provider.GetService<IValidationHandler<CreateCustomerCommand>>()))
                     .Register();
@@ -79,7 +80,7 @@ namespace CqrsApi
             #region Orders
             services.AddTransient<IQueryHandlerAsync<GetManyOrdersQuery, IEnumerable<Order>>, GetManyOrdersQueryHandler>();
           
-            services.DecoratorFor<ICommandHandlerAsync<CreateOrderCommand>>()
+            services.DecoratorFor<ICommandHandlerAsync<CreateOrderCommand, CommandResult<Order>>>()
                 .Default<CreateOrderHandler>()
                 .Register();
             #endregion

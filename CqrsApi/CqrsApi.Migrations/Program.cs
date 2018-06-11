@@ -31,7 +31,7 @@ namespace CqrsApi.Migrations
                     // Add SQLite support to FluentMigrator
                     .AddSqlServer2014()
                     // Set the connection string
-                    .WithGlobalConnectionString("Data Source=(local);Initial Catalog=CqrsApi;Integrated Security=true;")
+                    .WithGlobalConnectionString("Data Source=.\\SQLEXPRESS;Initial Catalog=CqrsApi;Integrated Security=true;")
                     // Define the assembly containing the migrations
                     .ScanIn(typeof(Migration201802061334).Assembly).For.Migrations())
                 // Enable logging to console in the FluentMigrator way

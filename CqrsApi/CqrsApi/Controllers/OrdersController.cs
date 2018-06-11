@@ -6,6 +6,8 @@ using CqrsApi.Domain.Infrastructure.Queries;
 using CqrsApi.Domain.Orders;
 using CqrsApi.Domain.Orders.Commands;
 using CqrsApi.Domain.Orders.Queries;
+using CqrsApi.Domain.Shared;
+using CqrsApi.Domain.Shared.Exceptions;
 using CqrsApi.Infrastructure;
 using CqrsApi.Models.Orders;
 using Microsoft.AspNetCore.Mvc;
@@ -36,10 +38,19 @@ namespace CqrsApi.Controllers
         }
 
         [HttpPost]
-        public async Task Post(int customerId, [FromBody] OrderEditModel editModel)
+        public async Task<Order> Post(int customerId, [FromBody] OrderEditModel editModel)
         {
             var createCommand = new CreateOrderCommand(customerId, editModel.Price);
-            await _commandsDispatcher.ExecuteAsync(createCommand);
+            var commandResult = await _commandsDispatcher.ExecuteAsync<CreateOrderCommand, CommandResult<Order>>(createCommand);
+
+            if (commandResult.IsSuccess)
+            {
+                return commandResult.Result;
+            }
+            else
+            {
+                throw new CqrsApiApplicationException(commandResult.FailureReason);
+            }
         }
     }
 }

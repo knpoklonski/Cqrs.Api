@@ -15,15 +15,15 @@ namespace CqrsApi.Domain.Infrastructure.Commands.Impl
             _commandHandlersFactory = commandHandlersFactory;
         }
 
-        public void Execute<TCommand>(TCommand command) where TCommand : ICommand
+        public TCommandResult Execute<TCommand, TCommandResult>(TCommand command) where TCommand : ICommand
         {
-            _commandHandlersFactory.CreateHandler<TCommand>().Execute(command);
+           return _commandHandlersFactory.CreateHandler<TCommand, TCommandResult>().Execute(command);
         }
 
-        public Task ExecuteAsync<TCommand>(TCommand command)
+        public Task<TCommandResult> ExecuteAsync<TCommand, TCommandResult>(TCommand command)
             where TCommand : ICommand
         {
-            return _commandHandlersFactory.CreateAsyncHandler<TCommand>().ExecuteAsync(command);
+            return _commandHandlersFactory.CreateAsyncHandler<TCommand, TCommandResult>().ExecuteAsync(command);
         }
     }
 }
