@@ -7,9 +7,9 @@ First version released
 Sample project with API using .Net Core and Dapper according to CQS principle
 
 Can commands return value? .. yes
-[jimmybogard](https://jimmybogard.com/domain-command-patterns-validation/)
-[vladikk](https://vladikk.com/2017/03/20/tackling-complexity-in-cqrs/)
-[API and CQRS](https://stackoverflow.com/questions/29916468/what-should-be-returned-from-the-api-for-cqrs-commands)
+* [jimmybogard](https://jimmybogard.com/domain-command-patterns-validation/)
+* [vladikk](https://vladikk.com/2017/03/20/tackling-complexity-in-cqrs/)
+* [API and CQRS](https://stackoverflow.com/questions/29916468/what-should-be-returned-from-the-api-for-cqrs-commands)
 
 ## Launch Instructions
 
