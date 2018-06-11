@@ -65,14 +65,24 @@ namespace CqrsApi.Controllers
         }
 
         [HttpPost]
-        public async Task<CustomerDetails> Post([FromBody] CustomerEditModel editModel)
+        public async Task<CustomerDetailsResource> Post([FromBody] CustomerEditModel editModel)
         {
             var createCommand = new CreateCustomerCommand(editModel.Name, editModel.Email);
             var commandResult = await _commandsDispatcher.ExecuteAsync<CreateCustomerCommand, CommandResult<CustomerDetails>>(createCommand);
 
             if (commandResult.IsSuccess)
             {
-                return commandResult.Result;
+                var customerDetails = commandResult.Result;
+
+                var resource = new CustomerDetailsResource
+                {
+                    Id = customerDetails.Id,
+                    Email = customerDetails.Email,
+                    Name = customerDetails.Name,
+                    Href = HttpContext.GetHref(customerDetails.Id)
+                };
+
+                return resource;
             }
             else
             {
