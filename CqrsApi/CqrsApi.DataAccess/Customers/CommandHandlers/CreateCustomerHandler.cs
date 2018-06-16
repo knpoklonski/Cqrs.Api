@@ -1,15 +1,13 @@
 ﻿using System.Data;
 using System.Threading.Tasks;
-using CqrsApi.Domain.Customers;
 using CqrsApi.Domain.Customers.Commands;
 using CqrsApi.Domain.Infrastructure;
 using CqrsApi.Domain.Infrastructure.Commands;
-using CqrsApi.Domain.Shared;
 using Dapper;
 
 namespace CqrsApi.DataAccess.Customers.CommandHandlers
 {
-    public class CreateCustomerHandler : ICommandHandlerAsync<CreateCustomerCommand, CommandResult<CustomerDetails>>
+    public class CreateCustomerHandler : ICommandHandlerAsync<CreateCustomerCommand>
     {
         private readonly IDataBaseConnectionProvider _provider;
 
@@ -18,17 +16,16 @@ namespace CqrsApi.DataAccess.Customers.CommandHandlers
             _provider = provider;
         }
 
-        public async Task<CommandResult<CustomerDetails>> ExecuteAsync(CreateCustomerCommand command)
+        public async Task ExecuteAsync(CreateCustomerCommand command)
         {
             using (var connection = _provider.GetConnection())
             {
                 connection.Open();
                 using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    var customerDetails = await connection.QuerySingleAsync<CustomerDetails>(
+                    await connection.ExecuteAsync(
                         @"INSERT INTO Customers (Name, Email)
-                          VALUES(@Name, @Email);
-                          SELECT * FROM Customers WHERE Id = SCOPE_IDENTITY();",
+                          VALUES(@Name, @Email)",
                         new
                         {
                             command.Name,
@@ -37,8 +34,6 @@ namespace CqrsApi.DataAccess.Customers.CommandHandlers
                         transaction);
 
                     transaction.Commit();
-
-                    return CommandResult<CustomerDetails>.Success(customerDetails);
                 }
             }
         }

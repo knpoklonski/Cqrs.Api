@@ -12,14 +12,14 @@ namespace CqrsApi.Domain
             _serviceProvider = serviceProvider;
         }
 
-        public ICommandHandler<TCommand, TCommandResult> CreateHandler<TCommand, TCommandResult>() where TCommand : ICommand
+        public ICommandHandler<TCommand> CreateHandler<TCommand>() where TCommand : ICommand
         {
-            return (ICommandHandler<TCommand, TCommandResult>) _serviceProvider.GetService(typeof(ICommandHandler<TCommand, TCommandResult>));
+            return (ICommandHandler<TCommand>) _serviceProvider.GetService(typeof(ICommandHandler<TCommand>));
         }
 
-        public ICommandHandlerAsync<TCommand, TCommandResult> CreateAsyncHandler<TCommand, TCommandResult>() where TCommand : ICommand
+        public ICommandHandlerAsync<TCommand> CreateAsyncHandler<TCommand>() where TCommand : ICommand
         {
-            return (ICommandHandlerAsync<TCommand, TCommandResult>)_serviceProvider.GetService(typeof(ICommandHandlerAsync<TCommand, TCommandResult>));
+            return (ICommandHandlerAsync<TCommand>)_serviceProvider.GetService(typeof(ICommandHandlerAsync<TCommand>));
         }
     }
 }

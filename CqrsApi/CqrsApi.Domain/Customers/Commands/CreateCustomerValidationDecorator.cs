@@ -1,26 +1,25 @@
 ﻿using System.Threading.Tasks;
 using CqrsApi.Domain.Infrastructure.Commands;
-using CqrsApi.Domain.Shared;
 
 namespace CqrsApi.Domain.Customers.Commands
 {
-    public class CreateCustomerValidationDecorator : ICommandHandlerAsync<CreateCustomerCommand, CommandResult<CustomerDetails>>
+    public class CreateCustomerValidationDecorator : ICommandHandlerAsync<CreateCustomerCommand>
     {
-        private readonly ICommandHandlerAsync<CreateCustomerCommand, CommandResult<CustomerDetails>> _commandHandler;
+        private readonly ICommandHandlerAsync<CreateCustomerCommand> _commandHandler;
         private readonly IValidationHandler<CreateCustomerCommand> _validationHandler;
 
         public CreateCustomerValidationDecorator(
-            ICommandHandlerAsync<CreateCustomerCommand, CommandResult<CustomerDetails>> commandHandler,
+            ICommandHandlerAsync<CreateCustomerCommand> commandHandler,
             IValidationHandler<CreateCustomerCommand> validationHandler)
         {
             _commandHandler = commandHandler;
             _validationHandler = validationHandler;
         }
 
-        public async Task<CommandResult<CustomerDetails>> ExecuteAsync(CreateCustomerCommand command)
+        public async Task ExecuteAsync(CreateCustomerCommand command)
         {
             await _validationHandler.Validate(command);
-            return await _commandHandler.ExecuteAsync(command);
+            await _commandHandler.ExecuteAsync(command);
         }
     }
 }

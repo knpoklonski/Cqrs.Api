@@ -2,7 +2,7 @@
 {
     public interface ICommandHandlersFactory
     {
-        ICommandHandler<TCommand, TCommandResult> CreateHandler<TCommand, TCommandResult>() where TCommand : ICommand;
-        ICommandHandlerAsync<TCommand, TCommandResult> CreateAsyncHandler<TCommand, TCommandResult>() where TCommand : ICommand;
+        ICommandHandler<TCommand> CreateHandler<TCommand>() where TCommand : ICommand;
+        ICommandHandlerAsync<TCommand> CreateAsyncHandler<TCommand>() where TCommand : ICommand;
     }
 }

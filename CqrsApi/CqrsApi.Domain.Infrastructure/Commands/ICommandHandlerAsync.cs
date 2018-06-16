@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    public interface ICommandHandlerAsync<in TCommand, TCommandResult> where TCommand : ICommand
+    public interface ICommandHandlerAsync<in TCommand> where TCommand : ICommand
     {
-        Task<TCommandResult> ExecuteAsync(TCommand command);
+        Task ExecuteAsync(TCommand command);
     }
 }
